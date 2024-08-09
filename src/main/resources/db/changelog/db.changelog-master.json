@@ -1,0 +1,9 @@
+{
+  "databaseChangeLog": [
+    {
+      "include": {
+        "file": "classpath:db/changelog/db.changelog-1-book-table.json"
+      }
+    }
+  ]
+}
