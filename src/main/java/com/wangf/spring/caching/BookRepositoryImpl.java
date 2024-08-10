@@ -4,62 +4,33 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StopWatch;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
-@Component
 @RequiredArgsConstructor
 @Slf4j
-public class SimpleBookRepository implements BookRepository {
+public class BookRepositoryImpl implements BookRepositoryCustom {
 
-    public static final String BOOKS_CACHE = "books";
+    private static final String BOOKS_CACHE = BookRepository.BOOKS_CACHE;
     private final CacheManager cacheManager;
-    private final List<Book> books = new ArrayList<>(Arrays.asList(
-            new Book("ISBN-1", "The Stand"),
-            new Book("ISBN-2", "The Shining"),
-            new Book("ISBN-3", "The Stand"),
-            new Book("ISBN-4", "The Shining")
-    ));
-
-
-    @Override
-    @CachePut(value = BOOKS_CACHE, key = "#book.isbn")
-    public Book addBook(Book book) {
-        books.add(book);
-        return book;
-    }
-
-    @Override
-    @CachePut(value = BOOKS_CACHE, key = "#book.isbn")
-    public Book updateBook(Book book) {
-        books.stream().filter(b -> b.getIsbn().equals(book.getIsbn())).
-                findFirst().ifPresent(b -> b.setTitle(book.getTitle()));
-        return book;
-    }
-
-    @Override
-    @CacheEvict(value = BOOKS_CACHE, key = "#isbn")
-    public Book deleteBook(String isbn) {
-        Book book = books.stream().filter(b -> b.getIsbn().equals(isbn)).
-                findFirst().orElse(null);
-        books.removeIf(b -> b.getIsbn().equals(isbn));
-        return book;
-    }
+    private final JdbcTemplate jdbcTemplate;
 
 
     @Override
     @Cacheable(value = BOOKS_CACHE)
-    public List<Book> getAllBooks() {
+    public List<Book> findAllSlow() {
         return executeWithTiming(() -> {
             simulateSlowService();
+            List<Book> books = jdbcTemplate.query("select * from book", (rs, _) -> {
+                String isbn = rs.getString("isbn");
+                String title = rs.getString("title");
+                return new Book(isbn, title);
+            });
             putEveryBookIntoCache(books);
             return books;
         });
@@ -74,11 +45,18 @@ public class SimpleBookRepository implements BookRepository {
 
     @Override
     @Cacheable(value = BOOKS_CACHE, key = "#isbn")
-    public Book getByIsbn(String isbn) {
+    public Optional<Book> findOneSlow(String isbn) {
         return executeWithTiming(() -> {
             simulateSlowService();
-            return books.stream().filter(book -> book.getIsbn().equals(isbn)).
-                    findFirst().orElse(null);
+            List<Book> result = jdbcTemplate.query("select * from book where isbn = ?",
+                    (rs, _) -> {
+                        String title = rs.getString("title");
+                        return new Book(isbn, title);
+                    }, isbn);
+            if (!result.isEmpty()) {
+                return Optional.of(result.getFirst());
+            }
+            return Optional.empty();
         });
     }
 

@@ -10,39 +10,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
-    private final BookRepository bookRepository;
+    private final BookService bookService;
 
-    public BookController(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping("/{isbn}")
-    public Book getBookByIsbn(@PathVariable(value = "isbn") String isbn) {
-        return bookRepository.getByIsbn(isbn);
+    public Optional<Book> getBookByIsbn(@PathVariable(value = "isbn") String isbn) {
+        return bookService.getBookByIsbn(isbn);
     }
 
     @GetMapping
     public List<Book> getAllBooks() {
-        return bookRepository.getAllBooks();
+        return bookService.getAllBooks();
     }
 
     @PostMapping
     public Book addBook(@RequestBody Book book) {
-        return bookRepository.addBook(book);
+        return bookService.updateOrInsertBook(book);
     }
 
     @PatchMapping
     public Book updateBook(@RequestBody Book book) {
-        return bookRepository.updateBook(book);
+        return bookService.updateOrInsertBook(book);
     }
 
     @DeleteMapping("/{isbn}")
-    public Book deleteBook(@PathVariable(value = "isbn") String isbn) {
-        return bookRepository.deleteBook(isbn);
+    public Optional<Book> deleteBook(@PathVariable(value = "isbn") String isbn) {
+        return bookService.deleteBook(isbn);
     }
 }
