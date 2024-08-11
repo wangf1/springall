@@ -3,7 +3,6 @@ package com.wangf.spring.service;
 import com.wangf.spring.entity.Book;
 import com.wangf.spring.repository.jdbc.BookJDBCRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +25,6 @@ public class BookService {
     }
 
     @Transactional
-    @CachePut(value = BookJDBCRepository.BOOKS_CACHE, key = "#book.isbn")
     public Book updateOrInsertBook(Book book) {
         Optional<Book> byId = bookRepository.findById(book.getIsbn());
         if (byId.isPresent()) {

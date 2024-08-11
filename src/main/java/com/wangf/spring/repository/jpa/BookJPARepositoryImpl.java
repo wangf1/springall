@@ -1,12 +1,13 @@
-package com.wangf.spring.repository.jdbc;
+package com.wangf.spring.repository.jpa;
 
 import com.wangf.spring.entity.Book;
 import com.wangf.spring.repository.common.BookRepositoryCustom;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StopWatch;
 
 import java.util.List;
@@ -15,22 +16,20 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 @Slf4j
-public class BookJDBCRepositoryImpl implements BookRepositoryCustom {
+public class BookJPARepositoryImpl implements BookRepositoryCustom {
 
-    private static final String BOOKS_CACHE = BookJDBCRepository.BOOKS_CACHE;
+    private static final String BOOKS_CACHE = BookJPARepository.BOOKS_CACHE;
     private final CacheManager cacheManager;
-    private final JdbcTemplate jdbcTemplate;
 
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public List<Book> findAllSlow() {
         return executeWithTiming(() -> {
             simulateSlowService();
-            List<Book> books = jdbcTemplate.query("select * from book", (rs, _) -> {
-                String isbn = rs.getString("isbn");
-                String title = rs.getString("title");
-                return new Book(isbn, title);
-            });
+            List<Book> books = entityManager.createQuery("SELECT b FROM Book b", Book.class)
+                    .getResultList();
             putEveryBookIntoCache(books);
             return books;
         });
@@ -47,24 +46,18 @@ public class BookJDBCRepositoryImpl implements BookRepositoryCustom {
     public Optional<Book> findOneSlow(String isbn) {
         return executeWithTiming(() -> {
             simulateSlowService();
-            List<Book> result = jdbcTemplate.query("select * from book where isbn = ?",
-                    (rs, _) -> {
-                        String title = rs.getString("title");
-                        return new Book(isbn, title);
-                    }, isbn);
-            if (!result.isEmpty()) {
-                return Optional.of(result.getFirst());
-            }
-            return Optional.empty();
+            List<Book> result = entityManager.createQuery("SELECT b FROM Book b WHERE b.isbn = :isbn", Book.class)
+                    .setParameter("isbn", isbn)
+                    .getResultList();
+            return result.stream().findFirst();
         });
     }
 
     @Override
     public Book insert(Book book) {
-        jdbcTemplate.update("insert into book (isbn, title) values (?, ?)", book.getIsbn(), book.getTitle());
+        entityManager.persist(book);
         return book;
     }
-
 
     private <T> T executeWithTiming(Supplier<T> supplier) {
         StopWatch stopWatch = new StopWatch();
@@ -73,15 +66,16 @@ public class BookJDBCRepositoryImpl implements BookRepositoryCustom {
             return supplier.get();
         } finally {
             stopWatch.stop();
-            log.info("Time elapsed: {}", stopWatch.getTotalTimeMillis());
+            log.info("Time elapsed: {} ms", stopWatch.getTotalTimeMillis());
         }
     }
 
     private void simulateSlowService() {
-        long tiems = 5000L;
+        long delay = 5000L;
         try {
-            Thread.sleep(tiems);
+            Thread.sleep(delay);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new IllegalStateException(e);
         }
     }

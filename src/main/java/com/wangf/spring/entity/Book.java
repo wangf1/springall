@@ -1,6 +1,8 @@
 package com.wangf.spring.entity;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,11 +12,11 @@ import org.springframework.data.relational.core.mapping.Table;
 // @Table annotation tell Spring this is entity will store in relational database rather than in Redis
 // Without this annotation, Spring will be confused and try to create both JDBC and Redis repositories.
 @Table
-//@Entity
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
-    //    @Id
+    @Id
     private String isbn;
     private String title;
 }
