@@ -1,4 +1,4 @@
-package com.wangf.spring.caching;
+package com.wangf.spring.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;

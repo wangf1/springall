@@ -47,9 +47,6 @@ curl -X GET http://localhost:8081/books/ISBN-1
 
 **Optional:** Download/install RedisInsight to view what has been cached in the Redis container.
 
-Cache-related code is in
-the [cache package](https://github.com/wangf1/springall/tree/main/src/main/java/com/wangf/spring/caching).
-
 ### PostgreSQL + Liquibase
 
 Database and schema versioning.

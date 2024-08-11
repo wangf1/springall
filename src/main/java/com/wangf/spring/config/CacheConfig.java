@@ -1,4 +1,4 @@
-package com.wangf.spring.caching;
+package com.wangf.spring.config;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;

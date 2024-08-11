@@ -1,5 +1,7 @@
-package com.wangf.spring.caching;
+package com.wangf.spring.service;
 
+import com.wangf.spring.entity.Book;
+import com.wangf.spring.repository.jdbc.BookJDBCRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookService {
 
-    private final BookRepository bookRepository;
+    private final BookJDBCRepository bookRepository;
 
 
     public Optional<Book> getBookByIsbn(String isbn) {
@@ -24,7 +26,7 @@ public class BookService {
     }
 
     @Transactional
-    @CachePut(value = BookRepository.BOOKS_CACHE, key = "#book.isbn")
+    @CachePut(value = BookJDBCRepository.BOOKS_CACHE, key = "#book.isbn")
     public Book updateOrInsertBook(Book book) {
         Optional<Book> byId = bookRepository.findById(book.getIsbn());
         if (byId.isPresent()) {

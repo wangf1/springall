@@ -1,5 +1,6 @@
-package com.wangf.spring.caching;
+package com.wangf.spring.repository.jdbc;
 
+import com.wangf.spring.entity.Book;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
@@ -14,9 +15,9 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 @Slf4j
-public class BookRepositoryImpl implements BookRepositoryCustom {
+public class BookJDBCRepositoryImpl implements BookRepositoryCustom {
 
-    private static final String BOOKS_CACHE = BookRepository.BOOKS_CACHE;
+    private static final String BOOKS_CACHE = BookJDBCRepository.BOOKS_CACHE;
     private final CacheManager cacheManager;
     private final JdbcTemplate jdbcTemplate;
 

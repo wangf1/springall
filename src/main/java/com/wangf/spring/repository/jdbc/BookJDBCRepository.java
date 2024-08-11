@@ -1,5 +1,6 @@
-package com.wangf.spring.caching;
+package com.wangf.spring.repository.jdbc;
 
+import com.wangf.spring.entity.Book;
 import io.micrometer.common.lang.NonNullApi;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @NonNullApi
-public interface BookRepository extends CrudRepository<Book, String>, BookRepositoryCustom {
+public interface BookJDBCRepository extends CrudRepository<Book, String>, BookRepositoryCustom {
     String BOOKS_CACHE = "books";
 
     @Override
