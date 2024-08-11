@@ -1,7 +1,7 @@
 package com.wangf.spring.service;
 
 import com.wangf.spring.entity.Book;
-import com.wangf.spring.repository.jdbc.BookJDBCRepository;
+import com.wangf.spring.repository.common.BookCachingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookService {
 
-    private final BookJDBCRepository bookRepository;
+    private final BookCachingRepository bookRepository;
 
 
     public Optional<Book> getBookByIsbn(String isbn) {
