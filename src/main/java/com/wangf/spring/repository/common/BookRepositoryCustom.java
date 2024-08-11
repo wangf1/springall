@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookRepositoryCustom {
-    @Cacheable(value = BookCachingRepository.BOOKS_CACHE)
+    @Cacheable(value = BookCachingRepository.BOOKS_CACHE, key = "'ALL_BOOKS'")
     List<Book> findAllSlow();
 
     @Cacheable(value = BookCachingRepository.BOOKS_CACHE, key = "#isbn")
