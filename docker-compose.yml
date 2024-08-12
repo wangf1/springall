@@ -20,3 +20,11 @@ services:
     volumes:
       - ./data/redis:/data
 
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra-container
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./data/cassandra:/var/lib/cassandra
+

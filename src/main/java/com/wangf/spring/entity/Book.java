@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -15,10 +16,12 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table //Indicate this class is a Spring JDBC entity
 @Entity // Indicate this class is a Spring JPA entity
 @Document(collection = "books") // Indicate this class is a Spring MongoDB entity
+@org.springframework.data.cassandra.core.mapping.Table // Indicate this class is a Spring Cassandra entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
     @Id
+    @PrimaryKey
     private String isbn;
     private String title;
 }
