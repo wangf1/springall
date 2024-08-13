@@ -2,7 +2,7 @@ This repository demonstrates how to set up and run various Spring (Boot) feature
 
 ## Start
 
-### Run Docker Containers: PostgreSQL, Redis
+### Run Docker Containers: PostgreSQL, Redis, Cassandra
 
 ```bash
 docker-compose up -d
