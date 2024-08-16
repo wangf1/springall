@@ -16,11 +16,14 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table //Indicate this class is a Spring JDBC entity
 @Entity // Indicate this class is a Spring JPA entity
 @Document(collection = "books") // Indicate this class is a Spring MongoDB entity
+// Indicate this class is a Spring Elasticsearch entity
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "books")
 @org.springframework.data.cassandra.core.mapping.Table // Indicate this class is a Spring Cassandra entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
     @Id
+    @org.springframework.data.annotation.Id
     @PrimaryKey
     private String isbn;
     private String title;

@@ -12,7 +12,6 @@ import java.util.Optional;
 @Slf4j
 public class BookJPARepositoryImpl extends AbstractBookRepositoryImpl {
 
-    private static final String BOOKS_CACHE = BookJPARepository.BOOKS_CACHE;
 
     private final EntityManager entityManager;
 

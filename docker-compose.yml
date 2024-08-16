@@ -28,3 +28,14 @@ services:
     volumes:
       - ./data/cassandra:/var/lib/cassandra
 
+  elasticsearch:
+    image: elasticsearch:8.15.0
+    container_name: elasticsearch-container
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"  # REST API
+      - "9300:9300"  # Cluster communication
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
