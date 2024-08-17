@@ -4,32 +4,31 @@ import com.wangf.spring.entity.Book;
 import com.wangf.spring.event.BookEvents;
 import com.wangf.spring.repository.common.BookCachingRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class BookService {
 
-    private final BookCachingRepository bookRepository;
+@RequiredArgsConstructor
+public class AbstractBookService<T extends Book> {
+
+    private final BookCachingRepository<T> bookRepository;
 
     private final BookEvents bookEvents;
 
 
-    public Optional<Book> getBookByIsbn(String isbn) {
+    public Optional<T> getBookByIsbn(String isbn) {
         return bookRepository.findOneSlow(isbn);
     }
 
-    public List<Book> getAllBooks() {
+    public List<T> getAllBooks() {
         return bookRepository.findAllSlow();
     }
 
     @Transactional
-    public Book updateOrInsertBook(Book book) {
-        Optional<Book> byId = bookRepository.findById(book.getIsbn());
+    public T updateOrInsertBook(T book) {
+        Optional<T> byId = bookRepository.findById(book.getIsbn());
         if (byId.isPresent()) {
             bookEvents.bookUpdated(book);
             return bookRepository.save(book);
@@ -41,8 +40,8 @@ public class BookService {
     }
 
     @Transactional
-    public Optional<Book> deleteBook(String isbn) {
-        Optional<Book> book = bookRepository.findOneSlow(isbn);
+    public Optional<T> deleteBook(String isbn) {
+        Optional<T> book = bookRepository.findOneSlow(isbn);
         if (book.isEmpty()) {
             return Optional.empty();
         }

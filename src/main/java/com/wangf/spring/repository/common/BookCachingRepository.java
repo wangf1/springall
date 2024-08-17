@@ -1,6 +1,5 @@
 package com.wangf.spring.repository.common;
 
-import com.wangf.spring.entity.Book;
 import io.micrometer.common.lang.NonNullApi;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -12,7 +11,7 @@ import java.util.Optional;
 
 
 @NonNullApi
-public interface BookCachingRepository extends CrudRepository<Book, String>, BookRepositoryCustom {
+public interface BookCachingRepository<T> extends CrudRepository<T, String>, BookRepositoryCustom<T> {
 
 
     String BOOKS_CACHE = "books";
@@ -20,20 +19,19 @@ public interface BookCachingRepository extends CrudRepository<Book, String>, Boo
 
     @Override
     @Cacheable(value = BOOKS_CACHE, key = "'" + ALL_BOOKS + "'")
-    List<Book> findAll();
+    List<T> findAll();
 
     @Override
     @Cacheable(value = BOOKS_CACHE, key = "#isbn")
-    Optional<Book> findById(String isbn);
+    Optional<T> findById(String isbn);
 
 
     @Override
     @CacheEvict(value = BOOKS_CACHE, key = "#isbn")
     void deleteById(String isbn);
 
-    @Override
-    @CachePut(value = BOOKS_CACHE, key = "#book.isbn")
-    @SuppressWarnings("unchecked")
-    Book save(Book book);
 
+    @Override
+    @CachePut(value = BookCachingRepository.BOOKS_CACHE, key = "#entity.isbn")
+    <S extends T> S save(S entity);
 }

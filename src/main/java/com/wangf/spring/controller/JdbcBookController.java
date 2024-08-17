@@ -1,7 +1,11 @@
 package com.wangf.spring.controller;
 
-import com.wangf.spring.entity.Book;
-import com.wangf.spring.service.BookService;
+import com.wangf.spring.dto.BookDto;
+import com.wangf.spring.entity.jdbc.Book;
+import com.wangf.spring.mapper.DtoToEntity;
+import com.wangf.spring.service.AbstractBookService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,16 +20,18 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
-public class BookController {
+@Profile("jdbc")
+@RequiredArgsConstructor
+public class JdbcBookController {
 
-    private final BookService bookService;
 
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
+    private final AbstractBookService<Book> bookService;
+
+    private final DtoToEntity dtoToEntity;
+
 
     @GetMapping("/{isbn}")
-    public Optional<Book> getBookByIsbn(@PathVariable(value = "isbn") String isbn) {
+    public Optional<Book> getBookDtoByIsbn(@PathVariable(value = "isbn") String isbn) {
         return bookService.getBookByIsbn(isbn);
     }
 
@@ -35,12 +41,14 @@ public class BookController {
     }
 
     @PostMapping
-    public Book addBook(@RequestBody Book book) {
+    public com.wangf.spring.entity.Book addBook(@RequestBody BookDto bookDto) {
+        Book book = (Book) dtoToEntity.dtoToEntity(bookDto);
         return bookService.updateOrInsertBook(book);
     }
 
     @PatchMapping
-    public Book updateBook(@RequestBody Book book) {
+    public Book updateBook(@RequestBody BookDto bookDto) {
+        Book book = (Book) dtoToEntity.dtoToEntity(bookDto);
         return bookService.updateOrInsertBook(book);
     }
 

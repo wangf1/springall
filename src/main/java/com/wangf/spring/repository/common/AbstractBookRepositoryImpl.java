@@ -1,11 +1,7 @@
 package com.wangf.spring.repository.common;
 
-import com.wangf.spring.entity.Book;
-import com.wangf.spring.repository.jdbc.BookJDBCRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.util.StopWatch;
 
 import java.util.List;
@@ -14,40 +10,29 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 @Slf4j
-public abstract class AbstractBookRepositoryImpl implements BookRepositoryCustom {
-
-    private static final String BOOKS_CACHE = BookJDBCRepository.BOOKS_CACHE;
-    protected final CacheManager cacheManager;
-
+public abstract class AbstractBookRepositoryImpl<T> implements BookRepositoryCustom<T> {
 
     @Override
-    public List<Book> findAllSlow() {
+    public List<T> findAllSlow() {
         return executeWithTiming(() -> {
             simulateSlowService();
-            List<Book> books = doFindAll();
-            putEveryBookIntoCache(books);
+            List<T> books = doFindAll();
             return books;
         });
     }
 
-    protected abstract List<Book> doFindAll();
+    protected abstract List<T> doFindAll();
 
-    private void putEveryBookIntoCache(List<Book> books) {
-        Cache cache = cacheManager.getCache(BOOKS_CACHE);
-        if (cache != null) {
-            books.forEach(book -> cache.put(book.getIsbn(), book));
-        }
-    }
 
     @Override
-    public Optional<Book> findOneSlow(String isbn) {
+    public Optional<T> findOneSlow(String isbn) {
         return executeWithTiming(() -> {
             simulateSlowService();
             return doFindByIsbn(isbn);
         });
     }
 
-    protected abstract Optional<Book> doFindByIsbn(String isbn);
+    protected abstract Optional<T> doFindByIsbn(String isbn);
 
 
     private <T> T executeWithTiming(Supplier<T> supplier) {

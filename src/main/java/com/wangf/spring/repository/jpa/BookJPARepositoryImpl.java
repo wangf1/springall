@@ -1,23 +1,21 @@
 package com.wangf.spring.repository.jpa;
 
-import com.wangf.spring.entity.Book;
+import com.wangf.spring.entity.jpa.Book;
 import com.wangf.spring.repository.common.AbstractBookRepositoryImpl;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.CacheManager;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public class BookJPARepositoryImpl extends AbstractBookRepositoryImpl {
+public class BookJPARepositoryImpl extends AbstractBookRepositoryImpl<Book> {
 
 
     private final EntityManager entityManager;
 
 
-    public BookJPARepositoryImpl(EntityManager entityManager, CacheManager cacheManager) {
-        super(cacheManager);
+    public BookJPARepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

@@ -1,9 +1,8 @@
 package com.wangf.spring.repository.cassandra;
 
-import com.wangf.spring.entity.Book;
+import com.wangf.spring.entity.cassandra.Book;
 import com.wangf.spring.repository.common.AbstractBookRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.CacheManager;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.data.cassandra.core.query.Criteria;
 import org.springframework.data.cassandra.core.query.Query;
@@ -12,12 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public class BookCassandraRepositoryImpl extends AbstractBookRepositoryImpl {
+public class BookCassandraRepositoryImpl extends AbstractBookRepositoryImpl<Book> {
 
     private final CassandraTemplate cassandraTemplate;
 
-    public BookCassandraRepositoryImpl(CassandraTemplate cassandraTemplate, CacheManager cacheManager) {
-        super(cacheManager);
+    public BookCassandraRepositoryImpl(CassandraTemplate cassandraTemplate) {
         this.cassandraTemplate = cassandraTemplate;
     }
 

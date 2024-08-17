@@ -1,23 +1,21 @@
 package com.wangf.spring.repository.jdbc;
 
-import com.wangf.spring.entity.Book;
+import com.wangf.spring.entity.jdbc.Book;
 import com.wangf.spring.repository.common.AbstractBookRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.CacheManager;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public class BookJDBCRepositoryImpl extends AbstractBookRepositoryImpl {
+public class BookJDBCRepositoryImpl extends AbstractBookRepositoryImpl<Book> {
 
     private static final String BOOKS_CACHE = BookJDBCRepository.BOOKS_CACHE;
     private final JdbcTemplate jdbcTemplate;
 
 
-    public BookJDBCRepositoryImpl(JdbcTemplate jdbcTemplate, CacheManager cacheManager) {
-        super(cacheManager);
+    public BookJDBCRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -29,7 +27,7 @@ public class BookJDBCRepositoryImpl extends AbstractBookRepositoryImpl {
             return new Book(isbn, title);
         });
     }
-    
+
     @Override
     protected Optional<Book> doFindByIsbn(String isbn) {
         List<Book> result = jdbcTemplate.query("select * from book where isbn = ?",

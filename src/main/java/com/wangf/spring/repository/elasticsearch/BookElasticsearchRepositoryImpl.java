@@ -1,9 +1,8 @@
 package com.wangf.spring.repository.elasticsearch;
 
-import com.wangf.spring.entity.Book;
+import com.wangf.spring.entity.elasticsearch.Book;
 import com.wangf.spring.repository.common.AbstractBookRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.CacheManager;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHitSupport;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -15,13 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public class BookElasticsearchRepositoryImpl extends AbstractBookRepositoryImpl {
+public class BookElasticsearchRepositoryImpl extends AbstractBookRepositoryImpl<Book> {
 
 
     private final ElasticsearchOperations elasticsearchTemplate;
 
-    public BookElasticsearchRepositoryImpl(ElasticsearchOperations elasticsearchRestTemplate, CacheManager cacheManager) {
-        super(cacheManager);
+    public BookElasticsearchRepositoryImpl(ElasticsearchOperations elasticsearchRestTemplate) {
         this.elasticsearchTemplate = elasticsearchRestTemplate;
     }
 

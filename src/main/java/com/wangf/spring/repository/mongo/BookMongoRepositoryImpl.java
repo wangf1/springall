@@ -1,9 +1,8 @@
 package com.wangf.spring.repository.mongo;
 
-import com.wangf.spring.entity.Book;
+import com.wangf.spring.entity.mongo.Book;
 import com.wangf.spring.repository.common.AbstractBookRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.CacheManager;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -12,12 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public class BookMongoRepositoryImpl extends AbstractBookRepositoryImpl {
+public class BookMongoRepositoryImpl extends AbstractBookRepositoryImpl<Book> {
 
     private final MongoTemplate mongoTemplate;
 
-    public BookMongoRepositoryImpl(MongoTemplate mongoTemplate, CacheManager cacheManager) {
-        super(cacheManager);
+    public BookMongoRepositoryImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
