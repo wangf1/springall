@@ -2,10 +2,14 @@ This repository demonstrates how to set up and run various Spring (Boot) feature
 
 ## Start
 
-### Run Docker Containers: PostgreSQL, Redis, Cassandra
+### Prepare .env
+
+Copy src\main\resources\.env.sample as src\main\resources\.env and change property values accordingly.
+
+### Run Docker Containers: PostgreSQL, Redis, Cassandra, elasticsearch
 
 ```bash
-docker-compose up -d
+ docker-compose --env-file .\src\main\resources\.env up -d
 ```
 
 ### Start Server
@@ -50,3 +54,11 @@ curl -X GET http://localhost:8081/books/ISBN-1
 ### PostgreSQL + Liquibase
 
 Database and schema versioning.
+
+### Cassandra
+
+Can be used instead of SQL DB.
+
+### Elasticsearch
+
+Full text search.

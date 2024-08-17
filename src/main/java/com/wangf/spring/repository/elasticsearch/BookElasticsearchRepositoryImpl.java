@@ -4,7 +4,7 @@ import com.wangf.spring.entity.elasticsearch.Book;
 import com.wangf.spring.repository.common.AbstractBookRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHitSupport;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
@@ -27,8 +27,7 @@ public class BookElasticsearchRepositoryImpl extends AbstractBookRepositoryImpl<
     protected List<Book> doFindAll() {
         Query query = new CriteriaQuery(new Criteria());  // Empty criteria to fetch all documents
         SearchHits<Book> searchHits = elasticsearchTemplate.search(query, Book.class);
-        Object o = SearchHitSupport.unwrapSearchHits(searchHits);
-        return List.of();
+        return searchHits.stream().map(SearchHit::getContent).toList();
     }
 
     @Override
@@ -39,7 +38,7 @@ public class BookElasticsearchRepositoryImpl extends AbstractBookRepositoryImpl<
         if (result.getSearchHits().isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(result.getSearchHits().get(0).getContent());
+        return Optional.of(result.getSearchHits().getFirst().getContent());
     }
 
     @Override

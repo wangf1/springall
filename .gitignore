@@ -37,6 +37,7 @@ out/
 .vscode/
 
 #.env file, logs, docker volumn folder
+.env
 /src/main/resources/.env
 /data
 /logs

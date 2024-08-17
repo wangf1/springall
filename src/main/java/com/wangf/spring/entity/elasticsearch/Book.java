@@ -4,6 +4,7 @@ package com.wangf.spring.entity.elasticsearch;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
@@ -11,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book implements com.wangf.spring.entity.Book {
+    @Id
     private String isbn;
     private String title;
 }
