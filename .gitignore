@@ -5,3 +5,8 @@
 build
 
 .idea
+
+# Docker contener volumns
+data
+
+**/.env
