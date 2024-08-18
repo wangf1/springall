@@ -38,19 +38,21 @@ subprojects {
     apply plugin: "org.springframework.boot"
 
     compileJava {
-        options.compilerArgs << '-parameters'
+        options.compilerArgs << "-parameters"
     }
 
 
     dependencies {
         implementation "org.springframework.boot:spring-boot-starter"
-        implementation 'org.springframework.boot:spring-boot-starter-actuator'
-        implementation 'org.springframework.cloud:spring-cloud-starter-config'
+        implementation "org.springframework.boot:spring-boot-starter-actuator"
+
+        implementation "org.springframework.cloud:spring-cloud-starter-config"
+        implementation "org.springframework.cloud:spring-cloud-starter-bus-kafka"
 
         testImplementation "org.springframework.boot:spring-boot-starter-test"
         testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 
-        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        developmentOnly "org.springframework.boot:spring-boot-devtools"
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
         implementation "org.liquibase:liquibase-core"

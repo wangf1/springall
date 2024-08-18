@@ -10,9 +10,10 @@ spring:
           clone-on-start: true
           searchPaths: config
           default-label: main
-          
+        default-label: main
+
 management:
   endpoints:
     web:
       exposure:
-        include: env
+        include: "*"

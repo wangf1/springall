@@ -7,7 +7,7 @@ This repository demonstrates how to set up and run various Spring (Boot) feature
 Copy src\main\resources\.env.sample as .env in same folder and change property values accordingly.
 Copy \.env.sample as .env in same folder and change property values accordingly.
 
-### Run Docker Containers: PostgreSQL, Redis, Cassandra, elasticsearch
+### Run Docker Containers: PostgreSQL, Redis, Cassandra, Elasticsearch, Kafka
 
 ```bash
  docker-compose up -d
@@ -68,3 +68,15 @@ Can be used instead of SQL DB.
 ### Elasticsearch
 
 Full text search.
+
+### Spring Cloud Bus - refresh config notification
+
+Refer [SpringDeveloper: Spring Tips: refreshable configuration with Spring Cloud Bus, and the Spring Cloud Config Monitor](https://www.youtube.com/watch?v=aC_siBP8rx8)
+
+- Implement Cloud Config.
+- Add "spring-cloud-starter-bus-kafka" dependency for each app.
+- Doing Bus Refresh for any application will trigger event indicate each application refresh config.
+
+```bash
+ curl -H"content-type: application/json" -d{} http://localhost:8888/actuator/busrefresh
+```

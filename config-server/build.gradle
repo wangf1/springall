@@ -1,3 +1,6 @@
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-config-server'
+    // config-monitor did not work since local machine do not have public accessible IP
+    // that github webhook can send notification to.
+    implementation 'org.springframework.cloud:spring-cloud-config-monitor'
 }
