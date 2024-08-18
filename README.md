@@ -86,7 +86,6 @@ Refer [SpringDeveloper: Spring Tips: refreshable configuration with Spring Cloud
 cd .\microservice-product
 ..\gradlew bootRun
 #http://localhost:8081/delay/2 will return some data
-http://localhost:8081/delay/1 will return fallback data: "Hello word"
-
+#http://localhost:8081/delay/1 will return fallback data: "Hello word"
 ```
 
