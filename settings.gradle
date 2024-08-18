@@ -8,4 +8,5 @@
 rootProject.name = 'springall'
 include 'multiple-data-source'
 include 'config-server'
+include 'microservice-product'
 

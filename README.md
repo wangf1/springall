@@ -3,6 +3,7 @@ This repository demonstrates how to set up and run various Spring (Boot) feature
 ## Start
 
 ### Prepare .env
+
 Copy \.env.sample as .env in same folder and change property values accordingly.
 
 ### Run Docker Containers: PostgreSQL, Redis, Cassandra, Elasticsearch, Kafka
@@ -78,3 +79,14 @@ Refer [SpringDeveloper: Spring Tips: refreshable configuration with Spring Cloud
 ```bash
  curl -H"content-type: application/json" -d{} http://localhost:8888/actuator/busrefresh
 ```
+
+### Circuit Breaker
+
+```bash
+cd .\microservice-product
+..\gradlew bootRun
+#http://localhost:8081/delay/2 will return some data
+http://localhost:8081/delay/1 will return fallback data: "Hello word"
+
+```
+

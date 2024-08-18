@@ -48,6 +48,7 @@ subprojects {
 
         implementation "org.springframework.cloud:spring-cloud-starter-config"
         implementation "org.springframework.cloud:spring-cloud-starter-bus-kafka"
+        implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 
         testImplementation "org.springframework.boot:spring-boot-starter-test"
         testRuntimeOnly "org.junit.platform:junit-platform-launcher"
