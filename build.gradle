@@ -1,0 +1,67 @@
+allprojects {
+    group = "com.wangf.spring"
+    version = "1.0.0"
+
+    apply plugin: "java"
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+buildscript {
+    ext {
+        springBootVersion = "3.3.2"
+        springDependencyManagementVersion = "1.1.6"
+
+        guavaVersion = "33.2.1-jre"
+        commonLang3Version = "3.16.0"
+        springDotenvVersion = "4.0.0"
+        mapstructVersion = "1.6.0"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:${springDependencyManagementVersion}")
+    }
+}
+
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "org.springframework.boot"
+
+
+    dependencies {
+        implementation "org.springframework.boot:spring-boot-starter"
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+        testImplementation "org.springframework.boot:spring-boot-starter-test"
+        testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+        implementation "org.liquibase:liquibase-core"
+
+        compileOnly "org.projectlombok:lombok"
+        annotationProcessor "org.projectlombok:lombok"
+
+        implementation "me.paulschwarz:spring-dotenv:${springDotenvVersion}"
+
+        implementation "com.google.guava:guava:${guavaVersion}"
+        implementation "org.apache.commons:commons-lang3:${commonLang3Version}"
+
+
+        implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+        annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
