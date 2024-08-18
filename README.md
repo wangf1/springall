@@ -16,7 +16,12 @@ Copy \.env.sample as .env in same folder and change property values accordingly.
 ### Start Server
 
 ```bash
-.\gradlew bootRun
+# In the `config-server` folder, run the following command. Note: Only I can run this successfully
+# because I have access to the private Git repository where the configurations are stored.
+..\gradlew bootRun
+
+# In multiple-data-source folder, run
+..\gradlew bootRun
 ```
 
 ## Tech Stacks

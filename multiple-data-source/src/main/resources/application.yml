@@ -1,0 +1,10 @@
+spring:
+
+  application:
+    name: multiple-data-source
+
+  profiles:
+    active: jpa
+
+  config:
+    import: "configserver:http://localhost:8888"
