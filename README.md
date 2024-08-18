@@ -3,8 +3,6 @@ This repository demonstrates how to set up and run various Spring (Boot) feature
 ## Start
 
 ### Prepare .env
-
-Copy src\main\resources\.env.sample as .env in same folder and change property values accordingly.
 Copy \.env.sample as .env in same folder and change property values accordingly.
 
 ### Run Docker Containers: PostgreSQL, Redis, Cassandra, Elasticsearch, Kafka
