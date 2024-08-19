@@ -1,13 +1,10 @@
-server:
-  port: 8081
-
-
 spring:
   config:
-    import:
-      - "optional:configserver:"
+    import: "optional:configserver:"
+
+
   application:
-    name: microservice-product
+    name: cloud-contract-client
   cloud:
     consul:
       host: localhost
