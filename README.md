@@ -6,7 +6,9 @@ This repository demonstrates how to set up and run various Spring (Boot) feature
 
 Copy \.env.sample as .env in same folder and change property values accordingly.
 
-### Run Docker Containers: PostgreSQL, Redis, Cassandra, Elasticsearch, Kafka
+### Run Docker Containers:
+
+PostgreSQL, Redis, Cassandra, Elasticsearch, Kafka, Consul
 
 ```bash
  docker-compose up -d
@@ -89,3 +91,16 @@ cd .\microservice-product
 #http://localhost:8081/delay/1 will return fallback data: "Hello word"
 ```
 
+### Consul
+
+View registered service on http://localhost:8500/ui/dc1/services
+
+### Spring Cloud Contract
+
+```bash
+# How to run consumer side contract test
+# 1. Publish producer side artifact to local maven repro
+microservice-product> ..\gradlew publishToMavenLocal
+# 2. Run consumer side test
+cloud-contract-client> ..\gradlew test
+```

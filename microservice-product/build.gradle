@@ -1,7 +1,11 @@
 plugins {
     id "groovy"
     id "org.springframework.cloud.contract" version "4.1.4"
+    id "maven-publish"
 }
+
+group = 'com.wangf.spring'
+version = '0.0.1-SNAPSHOT'
 
 ext {
     cloudContractVersion = "4.1.4"
@@ -27,4 +31,24 @@ dependencies {
 
 contracts {
     baseClassForTests = "com.wangf.spring.product.contract.BaseContractTestClass"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact bootJar
+
+            artifact verifierStubsJar
+
+            // https://github.com/spring-gradle-plugins/dependency-management-plugin/issues/273
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+                usage("java-runtime") {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
 }

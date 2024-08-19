@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
+import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
 
-//TODO Cloud Contract Consumer side test not done yet.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@AutoConfigureStubRunner
+@AutoConfigureStubRunner(ids = "com.wangf.spring:microservice-product:+:8081", stubsMode = StubRunnerProperties.StubsMode.LOCAL)
 class CustomerClientTest {
 
 
@@ -19,5 +19,6 @@ class CustomerClientTest {
     @Test
     void shouldReturnAllCustomers() {
         BDDAssertions.then(this.customerClient.getAllCustomers()).hasSize(2);
+        BDDAssertions.then(this.customerClient.getAllCustomers()).extracting("name").contains("Bob", "Alice");
     }
 }
