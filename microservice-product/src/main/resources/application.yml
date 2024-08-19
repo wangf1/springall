@@ -1,7 +1,23 @@
 server:
   port: 8081
 
+
 spring:
   config:
     import:
       - "optional:configserver:"
+  application:
+    name: microservice-product
+  #    instance_id: ${random.value}
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        #        instance-id:
+        #          ${spring.application.name}:${spring.application.instance_id}
+        serviceName: ${spring.application.name}
+        prefer-ip-address: true
+        heartbeat:
+          enabled: true
+          ttl: 10s
