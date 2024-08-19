@@ -21,3 +21,6 @@ spring:
         heartbeat:
           enabled: true
           ttl: 10s
+
+  liquibase:
+    enabled: false
