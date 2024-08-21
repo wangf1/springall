@@ -1,0 +1,1 @@
+Access http://localhost:8080/customers which will proxy request to http://localhost:8081/api/customers.

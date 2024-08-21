@@ -2,10 +2,10 @@ package contracts
 
 org.springframework.cloud.contract.spec.Contract.make {
     request {
-        method 'GET'
-        url '/customers'
+        method "GET"
+        url "/api/customers"
         headers {
-            contentType('application/json')
+            contentType("application/json")
         }
     }
     response {
@@ -21,7 +21,7 @@ org.springframework.cloud.contract.spec.Contract.make {
                 ]
         ])
         headers {
-            contentType('application/json')
+            contentType("application/json")
         }
     }
 }

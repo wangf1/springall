@@ -34,7 +34,7 @@ public class TddControllerTest {
                 new Customer(2L, "Alice"))).
                 when(tddRepository).findAll();
 
-        mockMvc.perform(get("/customers"))
+        mockMvc.perform(get("/api/customers"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("@.[0].id").value(1L))
                 .andExpect(jsonPath("@.[0].name").value("Bob"))

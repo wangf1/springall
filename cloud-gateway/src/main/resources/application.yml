@@ -1,0 +1,28 @@
+spring:
+  config:
+    import:
+      - "optional:configserver:"
+  application:
+    name: cloud-gateway
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        serviceName: ${spring.application.name}
+        prefer-ip-address: true
+        heartbeat:
+          enabled: true
+          ttl: 10s
+
+    gateway:
+      mvc:
+        routes:
+          - id: posts-route
+            uri: ${customer_route_uri:http://localhost:8081}
+            predicates:
+              - Path=/customers/**
+            filters:
+              - PrefixPath=/api
+              - AddResponseHeader=X-Response-Red, Blue

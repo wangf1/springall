@@ -19,5 +19,7 @@ spring:
           enabled: true
           ttl: 10s
 
+
+
   liquibase:
-    enabled: false
+    change-log: classpath:/db/changelog/db.changelog-master.xml

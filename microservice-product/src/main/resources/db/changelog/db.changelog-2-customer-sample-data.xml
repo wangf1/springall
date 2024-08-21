@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2-add-customer-sample-data" author="markw">
+        <insert tableName="customer">
+            <column name="id" value="1"/>
+            <column name="name" value="Customer 1"/>
+        </insert>
+
+        <insert tableName="customer">
+            <column name="id" value="2"/>
+            <column name="name" value="Customer 2"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
