@@ -1,0 +1,23 @@
+server:
+  port: 8083
+
+spring:
+  config:
+    import: "optional:configserver:"
+
+
+  application:
+    name: cloud-function
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        serviceName: ${spring.application.name}
+        prefer-ip-address: true
+        heartbeat:
+          enabled: true
+          ttl: 10s
+
+  liquibase:
+    enabled: false

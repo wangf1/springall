@@ -11,4 +11,5 @@ include 'config-server'
 include 'microservice-product'
 include 'cloud-contract-client'
 include 'common'
+include 'cloud-misc'
 
