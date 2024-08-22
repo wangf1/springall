@@ -13,4 +13,5 @@ include 'cloud-contract-client'
 include 'common'
 include 'cloud-misc'
 include 'cloud-gateway'
+include 'eureka-server'
 

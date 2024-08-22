@@ -18,6 +18,8 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class CustomerClient {
 
+    // The URL of the service registered in Eureka
+    private final static String URL_MICROSERVICE_PRODUCT = "http://microservice-product";
     private final RestTemplate restTemplate;
 
     public Collection<Customer> getAllCustomers() {
@@ -26,7 +28,7 @@ public class CustomerClient {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ResponseEntity<Collection<Customer>> responseEntity = restTemplate.exchange(
-                "http://localhost:8081/customers", HttpMethod.GET,
+                URL_MICROSERVICE_PRODUCT + "/api/customers", HttpMethod.GET,
                 entity, new ParameterizedTypeReference<>() {
                 });
         return responseEntity.getBody();

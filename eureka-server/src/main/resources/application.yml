@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8761
 
 spring:
   config:
@@ -7,7 +7,7 @@ spring:
 
 
   application:
-    name: cloud-contract-client
+    name: cloud-function
   cloud:
     consul:
       host: localhost
@@ -21,3 +21,11 @@ spring:
 
   liquibase:
     enabled: false
+
+
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  datacenter: localhost
