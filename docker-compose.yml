@@ -65,3 +65,11 @@ services:
     volumes:
       - ./data/consul/server.json:/consul/config/server.json
       - ./data/consul/certs:/consul/config/certs/:ro
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin-container
+    ports:
+      - "9411:9411"
+    volumes:
+      - ./data/zipkin:/zipkin/data

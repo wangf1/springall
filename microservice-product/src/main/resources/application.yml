@@ -19,7 +19,13 @@ spring:
           enabled: true
           ttl: 10s
 
-
-
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
+
+management:
+  endpoints:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
